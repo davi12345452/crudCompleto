@@ -1,0 +1,18 @@
+/*
+    Costumizando em cima do Bootstrap. Para funcionar as alterações, o  style.css deve ser adicionado após
+    o Bootstrap. 
+*/
+
+.custom-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+}
+
+.custom-card-header {
+    background-color: #cb3333;
+    color: #fff;
+}
+
+.divPergunta {
+    margin-top: 2%;
+}

@@ -38,7 +38,7 @@ connection
  */
 
 app.get("/", (req, res) => {
-    res.send("BEM VINDO");
+    res.render('index')
 })
 
 /**
