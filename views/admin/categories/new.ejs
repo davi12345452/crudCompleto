@@ -1,0 +1,21 @@
+<%- include('../../partials/head.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+<br>
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-header newHeaderBGColor text-white">
+            <h2 class="mb-0">Cadastro de categoria:</h2>
+        </div>
+        <div class="card-body">
+            <form action="/categories/new" method="POST">
+                <div class="form-group">
+                    <label for="categoryTitle" class="form-label">Nome da categoria</label>
+                    <input id="categoryTitle" class="form-control" type="text" name="title" placeholder="Defina o nome da categoria">
+                </div>
+                <button class="btn btn-danger btn-block mt-4">Adicionar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>

@@ -5,9 +5,27 @@
 
 const express = require("express");
 const router = express.Router();
+const Category = require("./Category");
+const Slugify = require("slugify")
 
-router.get("/categorias", (req, res) => {
-    res.send("Rota categoria")
+// Página para a criação de categorias pelo ADM, no seu painel
+router.get("/admin/categories/new", (req, res) => {
+    res.render("admin/categories/new.ejs");
+});
+
+router.post("/categories/new", (req, res) => {
+    let _title = req.body.title
+    if(_title == undefined){
+        console.log("Error, undefined category");
+        res.redirect("/admin/categories/new")
+    }else{
+        Category.create({
+            title: _title,
+            slug: Slugify(_title) // Maneira de tratar espaços e letras minúsculas: Desenv Web => desenv-web, vai ajudar na rota individual dps
+        }).then(() => {
+            res.redirect("/");
+        })
+    }
 })
 
 module.exports = router;
