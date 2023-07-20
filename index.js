@@ -17,6 +17,11 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+// Possibilitando exportar rotas de outros arquivos:
+const categorias = require("./categories/CategoriesController");
+const artigos = require("./articles/ArticlesController");
+app.use("/", categorias, artigos);
+
 
 /**
  *  TESTES DE CONEXÃO DA APLICAÇÃO
