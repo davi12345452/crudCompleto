@@ -22,7 +22,14 @@ const categorias = require("./categories/CategoriesController");
 const artigos = require("./articles/ArticlesController");
 app.use("/", categorias, artigos);
 
+// Importando os models criando-os:
+const Category = require('./categories/Category');
+const Article = require('./articles/Article');
 
+Category.sync({force: false}).then(() => {
+    Article.sync({force: false});
+  });
+  
 /**
  *  TESTES DE CONEXÃO DA APLICAÇÃO
  */
