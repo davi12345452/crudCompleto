@@ -1,0 +1,53 @@
+<%- include('../../partials/head.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+<br>
+<div class="container py-1">
+    <div class="card shadow">
+        <div class="card-header newHeaderBGColor text-white">
+            <h2 class="mb-0">Edição de Artigo:</h2>
+        </div>
+        <div class="card-body">
+            <form action="/articles/edit" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Nome do Artigo: </label>
+                    <input  class="form-control" type="text" name="title" value="<%=artigo.title%>">
+                    <br>
+                    <textarea id="article" name="text" class="form-control" ></textarea>
+                    <hr><label>Escolha a categoria do artigo:</label><hr>
+                    <select name="category" class="form-control">
+                        <%categories.forEach(category => {%>
+                            <option value="<%=category.id%>"><%=category.title%></option>
+                        <% })%>
+                    </select>
+                </div>
+                <button class="btn btn-danger btn-block mt-4">Atualizar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="content" style="display: none;">
+    <%=artigo.body%>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+
+<!--
+    Aqui, estou inicializando o editor de texto
+-->
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+
+<script>
+
+    tinymce.init({
+        selector: "#article",
+        plugins: [
+            "advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste"
+            // Links, imprimir, preview ctrl-f... 
+        ],
+        init_instance_callback: () => {
+            // Pega o conteúdo da div ali embaixo com jquery
+            tinymce.get("article").setContent($("#content").html())
+        }
+    })
+</script>
