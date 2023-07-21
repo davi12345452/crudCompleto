@@ -22,8 +22,12 @@
                     <th><%=category.title%></th>
                     <th><%=category.slug%></th>
                     <th>
-                        <button class="btn btn-warning">Editar</button>
-                        <button class="btn btn-danger">Apagar</button>
+                        <a href="/admin/categories/edit/<%= category.id%>" class="btn btn-warning">Editar</a>
+                        <form  style="display: inline;" action="/categories/delete" method="POST" onsubmit="confirmarDelete(event, this)">
+                            <input type="hidden" name="id" value="<%=category.id%>">
+                            <button class="btn btn-danger">Apagar</button>
+                        </form>
+                        
                     </th>
                 </tr>
             <%})%>
@@ -31,3 +35,18 @@
     </table>
 </div>
 <%- include('../../partials/footer.ejs') %>
+
+
+<!--
+    Aqui, está criado um script de verificação, para o usuário confirmar se quer mesmo deletar a categoria,
+    de maneira a contornar acidentes e erros. 
+-->
+<script>
+    function confirmarDelete(event, form) {
+        event.preventDefault();
+        var confirmar = confirm("Você deseja deletar a categoria?");
+        if(confirmar){
+            form.submit();
+        }
+    }  
+</script>

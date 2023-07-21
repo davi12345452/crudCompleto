@@ -1,0 +1,20 @@
+<%- include('../../partials/head.ejs') %>
+<br>
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-header newHeaderBGColor text-white">
+            <h2 class="mb-0">Edição de categoria:</h2>
+        </div>
+        <div class="card-body">
+            <form action="/categories/edit" method="POST">
+                <div class="form-group">
+                    <label for="categoryTitle" class="form-label">Nome da categoria</label>
+                    <input id="categoryTitle" class="form-control" type="text" name="title" placeholder="Defina o nome da categoria" value="<%= categoria.title %>">
+                    <input type="hidden" name="id" value="<%=categoria.id%>">
+                </div>
+                <button class="btn btn-danger btn-block mt-4">Atualizar</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer.ejs') %>

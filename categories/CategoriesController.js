@@ -22,6 +22,23 @@ router.get("/admin/categories", (req, res) => {
     
 })
 
+// Rota para abrir o editor de categoria
+
+router.get("/admin/categories/edit/:id", (req, res) => {
+    let _id = req.params.id;
+    if(isNaN(_id)){
+        res.redirect("/admin/categories"); 
+    }
+    // É uma maneira do Sequelize, mais rápida, de encontra por id
+    Category.findByPk(_id).then(category => {
+        if(category != undefined){
+            res.render("admin/categories/edit.ejs", {categoria: category});
+        }else{
+            res.redirect("/admin/categories");
+        }
+    }).catch(() => res.redirect("/admin/categories"));
+})
+
 // Rota para criar categoria e guardar dados no db
 router.post("/categories/new-save", (req, res) => {
     let _title = req.body.title;
@@ -33,7 +50,7 @@ router.post("/categories/new-save", (req, res) => {
             title: _title,
             slug: Slugify(_title) // Maneira de tratar espaços e letras minúsculas: Desenv Web => desenv-web, vai ajudar na rota individual dps
         }).then(() => {
-            res.redirect("/");
+            res.redirect("/admin/categories");
         })
     }
 })
@@ -59,4 +76,19 @@ router.post("/categories/delete", (req, res) => {
     }
 })
 
+// Rota POST para atualizar os dados de Categoria
+
+router.post("/categories/edit", (req, res) => {
+    let _id = req.body.id;
+    let _title = req.body.title;
+    Category.update({title: _title}, {
+        where:{
+            id: _id
+        }
+    }).then(() => {
+        res.redirect("/admin/categories");
+    }).catch(() => {
+        res.redirect("/admin/categories");
+    })
+})
 module.exports = router;
