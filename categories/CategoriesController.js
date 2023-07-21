@@ -22,8 +22,9 @@ router.get("/admin/categories", (req, res) => {
     
 })
 
+// Rota para criar categoria e guardar dados no db
 router.post("/categories/new-save", (req, res) => {
-    let _title = req.body.title
+    let _title = req.body.title;
     if(_title == undefined){
         console.log("Error, undefined category");
         res.redirect("/admin/categories/new");
@@ -34,6 +35,27 @@ router.post("/categories/new-save", (req, res) => {
         }).then(() => {
             res.redirect("/");
         })
+    }
+})
+
+// Rota para apagar uma categoria e seus dados do db
+
+router.post("/categories/delete", (req, res) => {
+    let _id = req.body.id;
+    if(_id != undefined){
+        if(!isNaN(_id)){
+            Category.destroy({
+                where:{
+                    id: _id
+                }
+            }).then( () => {
+                res.redirect("/admin/categories");
+            })
+        }else{
+            res.redirect("/admin/categories");
+        }
+    }else{
+        res.redirect("/admin/categories");
     }
 })
 
