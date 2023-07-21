@@ -14,7 +14,12 @@ router.get("/admin/categories/new", (req, res) => {
 });
 
 router.get("/admin/categories", (req, res) => {
-    res.render("admin/categories/index.ejs");
+    Category.findAll({raw:true}).then(_categories => {
+        res.render("admin/categories/index.ejs", {
+            categories: _categories
+        });
+    })
+    
 })
 
 router.post("/categories/new-save", (req, res) => {

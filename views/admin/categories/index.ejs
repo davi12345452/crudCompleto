@@ -5,14 +5,22 @@
     <h2>Categories: </h2>
     <table class="table">
         <thead>
-            <th>Id</th>
-            <th>Título</th>
-            <th>Slug</th>
-            <th>Ações</th>
+            <tr>
+                <th>Id</th>
+                <th>Título</th>
+                <th>Slug</th>
+                <th>Ações</th>
+            </tr>
         </thead>
         <tbody>
-            <% %>
-            <% %>
+            <%categories.forEach(category => {%>
+                <tr>
+                    <th><%=category.id%></th>
+                    <th><%=category.title%></th>
+                    <th><%=category.slug%></th>
+                    <th>Vazio por enquanto</th>
+                </tr>
+            <%})%>
         </tbody>
     </table>
 </div>
