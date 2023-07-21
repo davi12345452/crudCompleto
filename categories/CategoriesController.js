@@ -7,6 +7,7 @@ const express = require("express");
 const router = express.Router();
 const Category = require("./Category");
 const Slugify = require("slugify");
+const { default: slugify } = require("slugify");
 
 // Página para a criação de categorias pelo ADM, no seu painel
 router.get("/admin/categories/new", (req, res) => {
@@ -81,7 +82,7 @@ router.post("/categories/delete", (req, res) => {
 router.post("/categories/edit", (req, res) => {
     let _id = req.body.id;
     let _title = req.body.title;
-    Category.update({title: _title}, {
+    Category.update({title: _title, slug: slugify(_title)}, {
         where:{
             id: _id
         }
