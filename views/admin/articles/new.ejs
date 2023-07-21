@@ -1,0 +1,39 @@
+<%- include('../../partials/head.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+<br>
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-header newHeaderBGColor text-white">
+            <h2 class="mb-0">Cadastro de Artigo:</h2>
+        </div>
+        <div class="card-body">
+            <form action="/articles/new-save" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Nome do Artigo: </label>
+                    <input  class="form-control" type="text" name="title" placeholder="Defina o nome do artigo">
+                    <br>
+                    <textarea rows="10" id="article" name="text" class="form-control" placeholder="Escreva aqui o artigo"></textarea>
+                </div>
+                <button class="btn btn-danger btn-block mt-4">Adicionar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+
+<!--
+    Aqui, estou inicializando o editor de texto
+-->
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+
+<script>
+
+    tinymce.init({
+        selector: "#article",
+        plugins: [
+            "advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste"
+            // Links, imprimir, preview ctrl-f... 
+        ]
+    })
+</script>
