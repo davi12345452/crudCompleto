@@ -1,7 +1,7 @@
 <%- include('../../partials/head.ejs') %>
 <%- include('../../partials/navbar.ejs') %>
 <br>
-<div class="container py-5">
+<div class="container py-1">
     <div class="card shadow">
         <div class="card-header newHeaderBGColor text-white">
             <h2 class="mb-0">Cadastro de Artigo:</h2>
@@ -12,7 +12,13 @@
                     <label class="form-label">Nome do Artigo: </label>
                     <input  class="form-control" type="text" name="title" placeholder="Defina o nome do artigo">
                     <br>
-                    <textarea rows="10" id="article" name="text" class="form-control" placeholder="Escreva aqui o artigo"></textarea>
+                    <textarea id="article" name="text" class="form-control" placeholder="Escreva aqui o artigo"></textarea>
+                    <hr><label>Escolha a categoria do artigo:</label><hr>
+                    <select name="category" class="form-control">
+                        <%categories.forEach(category => {%>
+                            <option value="<%=category.id%>"><%=category.title%></option>
+                        <% })%>
+                    </select>
                 </div>
                 <button class="btn btn-danger btn-block mt-4">Adicionar</button>
             </form>
