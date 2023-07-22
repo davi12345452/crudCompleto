@@ -50,7 +50,11 @@ connection
  */
 
 app.get("/", (req, res) => {
-    res.render('index')
+    Article.findAll().then(_articles => {
+        res.render("index.ejs", {
+            articles: _articles
+        })
+    })
 })
 
 /**
