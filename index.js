@@ -49,12 +49,32 @@ connection
  *  CONFIGURAÇÃO DAS ROTAS GET DA APLICAÇÃO
  */
 
+// Rota para home
+
 app.get("/", (req, res) => {
     Article.findAll().then(_articles => {
         res.render("index.ejs", {
             articles: _articles
         })
     })
+})
+
+// Rota para página individual de artigos
+
+app.get("/articles/:slug", (req, res) => {
+    let _slug = req.params.slug;
+    // É uma maneira do Sequelize, mais rápida, de encontra por id
+    Article.findOne({
+        where:{
+            slug: _slug
+        }
+    }).then(article => {
+        if(article != undefined){
+            res.render("article.ejs", {artigo: article});
+        }else{
+            res.redirect("/");
+        }
+    }).catch(() => res.redirect("/"));
 })
 
 /**
