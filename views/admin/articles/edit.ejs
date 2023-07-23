@@ -9,6 +9,7 @@
         <div class="card-body">
             <form action="/articles/edit" method="POST">
                 <div class="form-group">
+                    <input type="hidden" name="id" value="<%=artigo.id%>">
                     <label class="form-label">Nome do Artigo: </label>
                     <input  class="form-control" type="text" name="title" value="<%=artigo.title%>">
                     <br>
