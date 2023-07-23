@@ -53,8 +53,11 @@ connection
 
 app.get("/", (req, res) => {
     Article.findAll().then(_articles => {
-        res.render("index.ejs", {
-            articles: _articles
+        Category.findAll().then(_categories => {
+            res.render("index.ejs", {
+                articles: _articles,
+                categories: _categories
+            })
         })
     })
 })
@@ -70,11 +73,39 @@ app.get("/articles/:slug", (req, res) => {
         }
     }).then(article => {
         if(article != undefined){
-            res.render("article.ejs", {artigo: article});
+            Category.findAll().then(_categories => {
+                res.render("article.ejs", {
+                    article: article,
+                    categories: _categories
+                })
+            })
         }else{
             res.redirect("/");
         }
     }).catch(() => res.redirect("/"));
+})
+
+// Rota para acessar por categoria os artigos
+
+app.get("/categories/:slug", (req, res) => {
+    let _slug = req.params.slug;
+    Category.findOne({
+        where:{
+            slug: _slug
+        },
+        include: {model: Article}
+    }).then(_category => {
+        if(_category != undefined){
+            Category.findAll().then(_categories => {
+                res.render("index", {
+                    articles: _category.articles,
+                    categories: _categories
+                })
+            })
+        }else{
+            res.redirect("/");
+        }
+    }).catch(error => res.redirect("/"));
 })
 
 /**
