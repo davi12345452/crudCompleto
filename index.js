@@ -52,7 +52,10 @@ connection
 // Rota para home
 
 app.get("/", (req, res) => {
-    Article.findAll().then(_articles => {
+    Article.findAll({
+        order: [["id", "DESC"]],
+        limit: 4
+    }).then(_articles => {
         Category.findAll().then(_categories => {
             res.render("index.ejs", {
                 articles: _articles,
