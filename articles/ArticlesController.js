@@ -54,6 +54,31 @@ router.get("/admin/articles/:id", (req, res) => {
     res.render("admin/articles/view");
 })
 
+// Rota para criar paginação
+
+router.get("/articles/page/:num", (req, res) => {
+    let n_page = req.params.num;
+    let e_pagina = 1;
+    let offset = 0;
+    if(!isNaN(n_page) || n_page != 1){
+        offset = (parseInt(n_page) * e_pagina - 1);
+    }
+    /**
+     * Aqui estamos criando uma paginação, ou seja, definir uma certa quantidade elementos exibidos por página. O elemento Limit significa
+     * uma quantidade máxima extraída, começa sempre do 0, por isso, usamos o offset, que defini por onde começar. O offset será setado pela
+     * página dada.
+     * 
+     * Ele devolve um json com dois elementos: COUNT (A quantidade de linhas) e ROWS (Um array com todo conteúdo, linha a linha)
+     * 
+     */
+    Article.findAndCountAll({
+        limit: e_pagina,
+        offset: offset
+    }).then(_articles => {
+        res.json(_articles);
+    })
+})
+
 // Rota post para criar um artigo
 
 router.post("/articles/new-save", (req, res) => {
