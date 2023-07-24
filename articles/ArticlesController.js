@@ -58,7 +58,7 @@ router.get("/admin/articles/:id", (req, res) => {
 
 router.get("/articles/page/:num", (req, res) => {
     let n_page = req.params.num;
-    let e_pagina = 2;
+    let e_pagina = 4;
     let offset = 0;
     if(isNaN(n_page) || n_page < 2){
         offset = 0
@@ -78,7 +78,7 @@ router.get("/articles/page/:num", (req, res) => {
         offset: offset
     }).then(_articles => {
         // Verifico se há artigo para a página
-        if(offset + e_pagina > _articles.count) {
+        if(offset > _articles.count) {
             res.redirect("/");
         }else{
             Category.findAll().then(_categories => {
