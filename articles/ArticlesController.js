@@ -58,10 +58,12 @@ router.get("/admin/articles/:id", (req, res) => {
 
 router.get("/articles/page/:num", (req, res) => {
     let n_page = req.params.num;
-    let e_pagina = 1;
+    let e_pagina = 2;
     let offset = 0;
-    if(!isNaN(n_page) || n_page != 1){
-        offset = (parseInt(n_page) * e_pagina - 1);
+    if(isNaN(n_page) || n_page < 2){
+        offset = 0
+    }else{
+        offset = (parseInt(n_page) - 1) * (e_pagina);
     }
     /**
      * Aqui estamos criando uma paginação, ou seja, definir uma certa quantidade elementos exibidos por página. O elemento Limit significa
@@ -75,7 +77,18 @@ router.get("/articles/page/:num", (req, res) => {
         limit: e_pagina,
         offset: offset
     }).then(_articles => {
-        res.json(_articles);
+        // Verifico se há artigo para a página
+        if(offset + e_pagina > _articles.count) {
+            res.redirect("/");
+        }else{
+            Category.findAll().then(_categories => {
+                res.render("pagina", {
+                    articles: _articles.rows,
+                    categories: _categories
+                })
+            })
+        }
+
     })
 })
 
