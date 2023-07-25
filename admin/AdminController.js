@@ -12,9 +12,9 @@ router.get("/admin/users", (req, res) => {
     Admin.findAll({
         raw: true,
         order: [["id", "DESC"]]
-    }).then(_admins => {
-        res.render("/admin/users/listUsers", {
-            admins: _admins
+    }).then(_users => {
+        res.render("admin/users/index", {
+            users: _users
         })
     })
 })
@@ -47,8 +47,23 @@ router.post("/admin/createAccount", (req, res) => {
 
 // Delete Post Router:
 
-router.post("", (req, res) => {
-    
+router.post("/admin/users/delete", (req, res) => {
+    let _id = req.body.id;
+    if(_id != undefined){
+        if(!isNaN(_id)){
+            Admin.destroy({
+                where:{
+                    id: _id
+                }
+            }).then( () => {
+                res.redirect("/admin/users");
+            })
+        }else{
+            res.redirect("/admin/users");
+        }
+    }else{
+        res.redirect("/admin/users");
+    }
 })
 
 // Update Post Router:

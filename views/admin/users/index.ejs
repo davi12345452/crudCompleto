@@ -1,0 +1,43 @@
+<%- include('../../partials/head.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+<div class="container">
+    <hr>
+    <h2>Usuários Cadastrados: </h2>
+    <hr>
+    <a href="/admin/users/create" class="btn btn-danger mb-3">Cadastrar novo usuário</a>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%users.forEach(user => {%>
+                <tr>
+                    <th><%=user.id%></th>
+                    <th><%=user.email%></th>
+                    <th>
+                        <a href="" class="btn btn-warning">Editar</a>
+                        <form  style="display: inline;" action="/admin/users/delete" method="POST" onsubmit="confirmarDelete(event, this)">
+                            <input type="hidden" name="id" value="<%=user.id%>">
+                            <button class="btn btn-danger">Apagar</button>
+                        </form>
+                    </th>
+                </tr>
+            <%})%>
+        </tbody>
+    </table>
+</div>
+<%- include('../../partials/footer.ejs') %>
+
+<script>
+    function confirmarDelete(event, form) {
+        event.preventDefault();
+        var confirmar = confirm("Você deseja deletar o usuário?");
+        if(confirmar){
+            form.submit();
+        }
+    }  
+</script>
