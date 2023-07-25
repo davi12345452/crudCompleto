@@ -35,14 +35,23 @@ router.get("/admin/users/update", (req, res) => {
 router.post("/admin/createAccount", (req, res) => {
     let _email = req.body.email;
     let _password = req.body.password1;
-    // Elemento a mais, para complicar ainda mais a quebra do hash
-    let salt = bcrypt.genSaltSync(10); 
-    let hash = bcrypt.hashSync(_password, salt);
-    Admin.create({
-        email: _email,
-        password: hash
-    }).then( () => {
-        res.redirect("/")})
+    Admin.findOne({where: {
+        email: _email
+    }}).then(user => {
+        // Se o email ainda não estiver cadastrado
+        if(user == undefined){
+            // Elemento a mais, para complicar ainda mais a quebra do hash
+            let salt = bcrypt.genSaltSync(10); 
+            let hash = bcrypt.hashSync(_password, salt);
+            Admin.create({
+                email: _email,
+                password: hash
+            }).then( () => {
+                res.redirect("/")})
+        }else{ // Se ja estiver cadastrado
+            res.redirect("/admin/users/create")
+        }
+    })
 })
 
 // Delete Post Router:
