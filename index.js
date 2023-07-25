@@ -20,11 +20,14 @@ app.use(bodyParser.json());
 // Possibilitando exportar rotas de outros arquivos:
 const categorias = require("./categories/CategoriesController");
 const artigos = require("./articles/ArticlesController");
-app.use("/", categorias, artigos);
+const admin = require("./admin/AdminController");
+
+app.use("/", categorias, artigos, admin);
 
 // Importando os models criando-os:
 const Category = require('./categories/Category');
 const Article = require('./articles/Article');
+const Admin = require("./admin/Admin");
 
 Category.sync({force: false}).then(() => {
     Article.sync({force: false});
