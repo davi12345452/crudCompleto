@@ -1,7 +1,7 @@
 <%- include('partials/head.ejs') %>
 <%- include('partials/noAdminNav.ejs') %>
 <div class="container">
-    <%articles.forEach(article => {%>
+    <%results.articles.rows.forEach(article => {%>
         <div class="card mt-3">
             <div class="card-header">
                 <h3><%=article.title%></h3>

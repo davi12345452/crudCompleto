@@ -78,17 +78,21 @@ router.get("/articles/page/:num", (req, res) => {
         offset: offset
     }).then(_articles => {
         // Verifico se há artigo para a página
-        if(offset > _articles.count) {
-            res.redirect("/");
-        }else{
-            Category.findAll().then(_categories => {
-                res.render("pagina", {
-                    articles: _articles.rows,
-                    categories: _categories
-                })
-            })
-        }
+        let next;
+        if(offset + e_pagina> _articles.count) next = false;
+        else next = true;
 
+        let results = {
+            next: next,
+            articles: _articles,
+            page: parseInt(n_page)
+        }
+        Category.findAll().then(_categories => {
+            res.render("pagina", {
+                results: results,
+                categories: _categories
+            })
+        })
     })
 })
 
