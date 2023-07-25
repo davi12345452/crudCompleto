@@ -59,8 +59,10 @@ router.get("/admin/articles/:id", (req, res) => {
 router.get("/articles/page/:num", (req, res) => {
     let n_page = req.params.num;
     let e_pagina = 4;
-    let offset = 0;
-    if(isNaN(n_page) || n_page < 2){
+    let offset;
+    if(isNaN(n_page) || n_page < 1){
+        res.redirect("/articles/page/1")
+    }else if(n_page == 1){
         offset = 0
     }else{
         offset = (parseInt(n_page) - 1) * (e_pagina);
