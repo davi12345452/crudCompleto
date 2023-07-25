@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Admin = require("./Admin");
 
+// Biblioteca para aplicar hashes às senhas ao guardá-las no db.
+const bcrypt = require("bcryptjs");
+
 
 // Rotas GET:
 
@@ -29,8 +32,17 @@ router.get("/admin/users/update", (req, res) => {
 
 // Create Post Router:
 
-router.post("", (req, res) => {
-    
+router.post("/admin/createAccount", (req, res) => {
+    let _email = req.body.email;
+    let _password = req.body.password1;
+    // Elemento a mais, para complicar ainda mais a quebra do hash
+    let salt = bcrypt.genSaltSync(10); 
+    let hash = bcrypt.hashSync(_password, salt);
+    Admin.create({
+        email: _email,
+        password: hash
+    }).then( () => {
+        res.redirect("/")})
 })
 
 // Delete Post Router:
