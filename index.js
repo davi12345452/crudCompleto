@@ -10,6 +10,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./database/db");
+const session = require("express-session")
 
 app.set("view engine", "ejs");
 
@@ -21,6 +22,11 @@ app.use(bodyParser.json());
 const categorias = require("./categories/CategoriesController");
 const artigos = require("./articles/ArticlesController");
 const admin = require("./admin/AdminController");
+
+app.use(session({
+    // Pequena camda de segurança, mais para encriptar alguns dados
+    secret: "efkhweoifweofiweeiofohwefodivebivugweifugweigwefuigwefuie"
+}))
 
 app.use("/", categorias, artigos, admin);
 
