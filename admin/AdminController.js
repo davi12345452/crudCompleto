@@ -28,6 +28,13 @@ router.get("/admin/users/update", (req, res) => {
     
 })
 
+
+// Rota para login
+
+router.get("/login", (req, res) => {
+    res.render("admin/users/login")
+})
+
 // Rotas POST:
 
 // Create Post Router:
@@ -79,6 +86,26 @@ router.post("/admin/users/delete", (req, res) => {
 
 router.post("", (req, res) => {
 
+})
+
+// Rota de autenticação de login
+router.post("/authenticate", (req, res) => {
+    let _email = req.body.email
+    let _password = req.body.password
+    Admin.findOne({where: {email: _email}}).then((user) => {
+        if(user != undefined){
+            let validation = bcrypt.compareSync(_password, user.password)
+            if(validation) {
+                req.session.connected = {
+                    id: user.id,
+                    email: user.email
+                }
+                res.json(req.session.connected)
+            }else res.redirect("/login")
+        }else{
+            res.redirect("/login")
+        }
+    })
 })
 
 module.exports = router;

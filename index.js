@@ -36,7 +36,7 @@ app.use(session({
     secret: "efkhweoifweofiweeiofohwefodivebivugweifugweigwefuigwefuie",
     // Configurando cookies das sessions -> valor em milissegundos, setei 60 segundos(1- 1000)
     cookie: {
-        maxAge: (60 * (1000))
+        maxAge: (10 * (1000))
     }
 }))
 
