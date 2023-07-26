@@ -4,11 +4,12 @@ const Admin = require("./Admin");
 
 // Biblioteca para aplicar hashes às senhas ao guardá-las no db.
 const bcrypt = require("bcryptjs");
+const admMidd = require("../middlewares/authenticationAdmin");
 
 
 // Rotas GET:
 
-router.get("/admin/users", (req, res) => {
+router.get("/admin/users",  admMidd,(req, res) => {
     Admin.findAll({
         raw: true,
         order: [["id", "DESC"]]
@@ -19,12 +20,12 @@ router.get("/admin/users", (req, res) => {
     })
 })
 
-router.get("/admin/users/create", (req, res) => {
+router.get("/admin/users/create", admMidd, (req, res) => {
     res.render("admin/users/create")
 })
 
 
-router.get("/admin/users/update", (req, res) => {
+router.get("/admin/users/update", admMidd, (req, res) => {
     
 })
 
@@ -35,11 +36,16 @@ router.get("/login", (req, res) => {
     res.render("admin/users/login")
 })
 
+router.get("/admin/logout", admMidd, (req, res) =>{
+    req.session.user = undefined
+    res.redirect("/login")
+})
+
 // Rotas POST:
 
 // Create Post Router:
 
-router.post("/admin/createAccount", (req, res) => {
+router.post("/admin/createAccount", admMidd, (req, res) => {
     let _email = req.body.email;
     let _password = req.body.password1;
     Admin.findOne({where: {
@@ -63,7 +69,7 @@ router.post("/admin/createAccount", (req, res) => {
 
 // Delete Post Router:
 
-router.post("/admin/users/delete", (req, res) => {
+router.post("/admin/users/delete", admMidd, (req, res) => {
     let _id = req.body.id;
     if(_id != undefined){
         if(!isNaN(_id)){
@@ -89,7 +95,7 @@ router.post("", (req, res) => {
 })
 
 // Rota de autenticação de login
-router.post("/authenticate", (req, res) => {
+router.post("/authenticate",  (req, res) => {
     let _email = req.body.email
     let _password = req.body.password
     Admin.findOne({where: {email: _email}}).then((_user) => {
@@ -100,7 +106,7 @@ router.post("/authenticate", (req, res) => {
                     id: _user.id,
                     email: _user.email
                 }
-                res.json(req.session.user)
+                res.redirect("/admin/users")
             }else res.redirect("/login")
         }else{
             res.redirect("/login")

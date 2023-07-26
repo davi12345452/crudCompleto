@@ -8,13 +8,14 @@ const router = express.Router();
 const Category = require("./Category");
 const Slugify = require("slugify");
 const { default: slugify } = require("slugify");
+const admMidd = require("../middlewares/authenticationAdmin");
 
 // Página para a criação de categorias pelo ADM, no seu painel
-router.get("/admin/categories/new", (req, res) => {
+router.get("/admin/categories/new", admMidd, (req, res) => {
     res.render("admin/categories/new.ejs");
 });
 
-router.get("/admin/categories", (req, res) => {
+router.get("/admin/categories", admMidd, (req, res) => {
     Category.findAll({raw:true}).then(_categories => {
         res.render("admin/categories/index.ejs", {
             categories: _categories
@@ -25,7 +26,7 @@ router.get("/admin/categories", (req, res) => {
 
 // Rota para abrir o editor de categoria
 
-router.get("/admin/categories/edit/:id", (req, res) => {
+router.get("/admin/categories/edit/:id", admMidd, (req, res) => {
     let _id = req.params.id;
     if(isNaN(_id)){
         res.redirect("/admin/categories"); 
@@ -41,7 +42,7 @@ router.get("/admin/categories/edit/:id", (req, res) => {
 })
 
 // Rota para criar categoria e guardar dados no db
-router.post("/categories/new-save", (req, res) => {
+router.post("/categories/new-save", admMidd, (req, res) => {
     let _title = req.body.title;
     if(_title == undefined){
         console.log("Error, undefined category");
@@ -58,7 +59,7 @@ router.post("/categories/new-save", (req, res) => {
 
 // Rota para apagar uma categoria e seus dados do db
 
-router.post("/categories/delete", (req, res) => {
+router.post("/categories/delete", admMidd, (req, res) => {
     let _id = req.body.id;
     if(_id != undefined){
         if(!isNaN(_id)){
@@ -79,7 +80,7 @@ router.post("/categories/delete", (req, res) => {
 
 // Rota POST para atualizar os dados de Categoria
 
-router.post("/categories/edit", (req, res) => {
+router.post("/categories/edit", admMidd, (req, res) => {
     let _id = req.body.id;
     let _title = req.body.title;
     Category.update({title: _title, slug: slugify(_title)}, {

@@ -7,7 +7,7 @@ const middlAdmin = (req, res, next) => {
         next();
     // Se não existir, ele redireciona para a home page
     }else{
-        res.redirect("/")
+        res.redirect("/login")
     }
 }
 

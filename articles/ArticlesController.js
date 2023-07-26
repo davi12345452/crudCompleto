@@ -102,7 +102,7 @@ router.get("/articles/page/:num", (req, res) => {
 
 // Rota post para criar um artigo
 
-router.post("/articles/new-save", (req, res) => {
+router.post("/articles/new-save", admMidd, (req, res) => {
     let _title = req.body.title;
     let _text = req.body.text;
     let _category = req.body.category;
@@ -123,7 +123,7 @@ router.post("/articles/new-save", (req, res) => {
 
 // Rota para deletar um artigo:
 
-router.post("/articles/delete", (req, res) => {
+router.post("/articles/delete",admMidd, (req, res) => {
     let _id = req.body.id;
     if(_id != undefined){
         if(!isNaN(_id)){
@@ -144,7 +144,7 @@ router.post("/articles/delete", (req, res) => {
 
 // Rota para editar um artigos:
 
-router.post("/articles/edit", (req, res) => {
+router.post("/articles/edit", admMidd,(req, res) => {
     let _id = req.body.id;
     let _title = req.body.title;
     let _text = req.body.text;
