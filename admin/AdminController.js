@@ -92,15 +92,15 @@ router.post("", (req, res) => {
 router.post("/authenticate", (req, res) => {
     let _email = req.body.email
     let _password = req.body.password
-    Admin.findOne({where: {email: _email}}).then((user) => {
-        if(user != undefined){
-            let validation = bcrypt.compareSync(_password, user.password)
+    Admin.findOne({where: {email: _email}}).then((_user) => {
+        if(_user != undefined){
+            let validation = bcrypt.compareSync(_password, _user.password)
             if(validation) {
-                req.session.connected = {
-                    id: user.id,
-                    email: user.email
+                req.session.user = {
+                    id: _user.id,
+                    email: _user.email
                 }
-                res.json(req.session.connected)
+                res.json(req.session.user)
             }else res.redirect("/login")
         }else{
             res.redirect("/login")

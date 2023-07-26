@@ -9,10 +9,12 @@ const Article = require("./Article");
 const Category = require("../categories/Category")
 const Slugify = require("slugify");
 const { default: slugify } = require("slugify");
+// Importando o middlewate de Admin
+const admMidd = require("../middlewares/authenticationAdmin");
 
 // Rota para a página de criação de artigos
 
-router.get("/admin/articles/new", (req, res) => {
+router.get("/admin/articles/new", admMidd, (req, res) => {
     Category.findAll({raw:true}).then(_categories => {
         res.render("admin/articles/new.ejs", {
             categories: _categories
@@ -22,7 +24,7 @@ router.get("/admin/articles/new", (req, res) => {
 
 // Rota para a página que lista os artigos
 
-router.get("/admin/articles", (req, res) => {
+router.get("/admin/articles", admMidd, (req, res) => {
     Article.findAll({include: [{model: Category}]}).then(_articles => {
         res.render("admin/articles/index.ejs", {
             articles: _articles,          
@@ -32,7 +34,7 @@ router.get("/admin/articles", (req, res) => {
 
 // Rota para editar artigo individualmente
 
-router.get("/admin/articles/edit/:id", (req, res) => {
+router.get("/admin/articles/edit/:id", admMidd, (req, res) => {
     let _id = req.params.id;
     if(isNaN(_id)){
         res.redirect("/admin/articles"); 
@@ -50,7 +52,7 @@ router.get("/admin/articles/edit/:id", (req, res) => {
 })
 
 // Rota para exibir artigo individual
-router.get("/admin/articles/:id", (req, res) => {
+router.get("/admin/articles/:id", admMidd, (req, res) => {
     res.render("admin/articles/view");
 })
 
