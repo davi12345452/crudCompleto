@@ -19,7 +19,7 @@
                     <th><%=user.id%></th>
                     <th><%=user.email%></th>
                     <th>
-                        <a href="" class="btn btn-warning">Editar</a>
+                        <a href="/admin/users/update/<%=user.id%>" class="btn btn-warning">Editar</a>
                         <form  style="display: inline;" action="/admin/users/delete" method="POST" onsubmit="confirmarDelete(event, this)">
                             <input type="hidden" name="id" value="<%=user.id%>">
                             <button class="btn btn-danger">Apagar</button>

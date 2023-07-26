@@ -1,0 +1,34 @@
+<%- include('../../partials/head.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-header"><h3>Editar conta</h3></div>
+        <div class="card-body">
+            <form method="post" action="/admin/updateAccount" onsubmit="return validateForm()">
+                <hr><label> Alterar o email</label><br>
+                <input type="hidden" name="id" value="<%=user.id%>">
+                <input name="email" class="form-control" type="email" placeholder="exemplo@exemplo.com" value="<%=user.email%>">
+                <hr><label> Digite a senha desejada </label><br>
+                <input name="password1" id="password1" class="form-control" type="password" placeholder="*******">
+                <input name="password2" id="password2" class="form-control mt-3 mb-3" type="password" placeholder="*******">
+                <button class="btn btn-danger btn-block">Editar Conta</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+<script>
+    function validateForm() {
+        var password1 = document.getElementById('password1').value;
+        var password2 = document.getElementById('password2').value;
+
+        if (password1 !== password2) {
+            alert("As senhas não coincidem. Por favor, verifique e tente novamente.");
+            return false; // Impede o envio do formulário
+        }
+
+        // Se as senhas coincidirem, o formulário será enviado normalmente
+        return true;
+    }
+</script>

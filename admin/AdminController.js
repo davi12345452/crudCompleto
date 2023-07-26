@@ -25,10 +25,20 @@ router.get("/admin/users/create", admMidd, (req, res) => {
 })
 
 
-router.get("/admin/users/update", admMidd, (req, res) => {
-    
+router.get("/admin/users/update/:id", admMidd, (req, res) => {
+    let _id = req.params.id;
+    Admin.findOne({
+        where: {
+            id: _id
+        }
+    }).then(user => {
+        res.render("admin/users/update", {
+            user: user
+        })
+    }).catch(() => {
+        res.redirect("/admin/users")
+    })
 })
-
 
 // Rota para login
 
@@ -90,8 +100,19 @@ router.post("/admin/users/delete", admMidd, (req, res) => {
 
 // Update Post Router:
 
-router.post("", (req, res) => {
-
+router.post("/admin/updateAccount", (req, res) => {
+    let _id = req.body.id;
+    let _email = req.body.email;
+    let _password = req.body.password1;
+    if(_email == undefined || _password == undefined){
+        res.redirect("/")
+    }else{
+        let salt = bcrypt.genSaltSync(10); 
+        let hash = bcrypt.hashSync(_password, salt);
+        Admin.update({email: _email, password: hash}, {where: {id: _id}}).then(() => {
+           res.redirect("/admin/logout") 
+        }).catch(() => res.redirect("/"))
+    }
 })
 
 // Rota de autenticação de login
