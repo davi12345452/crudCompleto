@@ -23,9 +23,21 @@ const categorias = require("./categories/CategoriesController");
 const artigos = require("./articles/ArticlesController");
 const admin = require("./admin/AdminController");
 
+
+/**
+ * Aqui estou usando o sessions são um db para armazenar os cookies. É um projeto de entedimento
+ * inicial de sessions, porém o correto seria utilizar um database para cookies ou cache, como 
+ * o Redis. Isso é pelo fato de ele armazenar os cookies na RAM da VPS que a aplicação rodar, o 
+ * que em grande escala é problemático. 
+ */
+
 app.use(session({
     // Pequena camda de segurança, mais para encriptar alguns dados
-    secret: "efkhweoifweofiweeiofohwefodivebivugweifugweigwefuigwefuie"
+    secret: "efkhweoifweofiweeiofohwefodivebivugweifugweigwefuigwefuie",
+    // Configurando cookies das sessions -> valor em milissegundos, setei 60 segundos(1- 1000)
+    cookie: {
+        maxAge: (60 * (1000))
+    }
 }))
 
 app.use("/", categorias, artigos, admin);
